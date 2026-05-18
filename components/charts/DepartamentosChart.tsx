@@ -1,9 +1,30 @@
 'use client'
 import '@/lib/chartSetup'
 import { Bar } from 'react-chartjs-2'
+import type { Plugin } from 'chart.js'
 import type { EscrituracionRecord } from '@/types'
 import { getDept } from '@/lib/dataHelpers'
 import { DEPT_COLORS } from '@/lib/constants'
+
+/** Draws value labels on top of each bar */
+const topLabelsPlugin: Plugin<'bar'> = {
+  id: 'topLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart
+    const meta = chart.getDatasetMeta(0)
+    meta.data.forEach((bar, i) => {
+      const value = chart.data.datasets[0].data[i] as number
+      if (!value) return
+      ctx.save()
+      ctx.fillStyle = '#374151'
+      ctx.font = '600 12px sans-serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'bottom'
+      ctx.fillText(String(value), bar.x, bar.y - 4)
+      ctx.restore()
+    })
+  },
+}
 
 export default function DepartamentosChart({ data }: { data: EscrituracionRecord[] }) {
   const fil = data.filter(d => d.estatus !== 'Completado')
@@ -13,6 +34,7 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
 
   return (
     <Bar
+      plugins={[topLabelsPlugin]}
       data={{
         labels: depts,
         datasets: [{
@@ -25,7 +47,16 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
       }}
       options={{
         responsive: true,
-        plugins: { legend: { display: false } },
+        layout: { padding: { top: 22 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: ctx => ctx[0].label,
+              label: ctx => `${ctx.parsed.y} proceso${ctx.parsed.y !== 1 ? 's' : ''}`,
+            },
+          },
+        },
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
           x: { grid: { display: false } },

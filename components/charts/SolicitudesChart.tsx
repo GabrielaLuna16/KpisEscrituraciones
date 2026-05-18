@@ -58,7 +58,14 @@ export default function SolicitudesChart({ data }: { data: EscrituracionRecord[]
       options={{
         responsive: true,
         interaction: { mode: 'index', intersect: false },
-        plugins: { legend: { position: 'top', labels: { boxWidth: 14 } } },
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 14 } },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} solicitudes`,
+            },
+          },
+        },
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
           x: { grid: { display: false } },

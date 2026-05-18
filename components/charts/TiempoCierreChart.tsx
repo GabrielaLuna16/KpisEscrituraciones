@@ -4,19 +4,18 @@ import { Line } from 'react-chartjs-2'
 import { useState, useMemo } from 'react'
 import type { EscrituracionRecord } from '@/types'
 import { STAGE_KEYS, LINE_PALETTE, KPI_LIMITS } from '@/lib/constants'
-import FolioSearch from '@/components/FolioSearch'
 import DeptTabs from '@/components/DeptTabs'
 
 export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[] }) {
   const allDepts = [...new Set(STAGE_KEYS.map(s => s.dept))]
   const [activeDept, setActiveDept] = useState('Todos')
-  const [selFolio, setSelFolio] = useState<{ folio: string; nombre: string } | null>(null)
+  const [selFolioKey, setSelFolioKey] = useState<string>('')
 
   const stages = activeDept === 'Todos' ? STAGE_KEYS : STAGE_KEYS.filter(s => s.dept === activeDept)
-  const recs   = selFolio ? data.filter(d => d.folio === selFolio.folio) : data
+  const recs   = selFolioKey ? data.filter(d => d.folio === selFolioKey) : data
 
   const chartData = useMemo(() => {
-    const pad = stages.length === 1 ? 2 : 0
+    const pad   = stages.length === 1 ? 2 : 0
     const empty = Array(pad).fill(null)
     const labels = [...Array(pad).fill(''), ...stages.map(s => s.short), ...Array(pad).fill('')]
 
@@ -41,7 +40,7 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
       })
     }
 
-    // One line per record
+    // One line per record — low opacity
     recs.forEach((d, i) => {
       const vals = stages.map(s => {
         const v = d[s.key as keyof EscrituracionRecord]
@@ -53,10 +52,13 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
         label: `#${d.folio} — ${d.nombre}`,
         data: padVals(vals),
         borderColor: col,
-        backgroundColor: col + '18',
-        fill: false, tension: 0.3,
-        pointRadius: 4, pointHoverRadius: 7,
-        borderWidth: 2, order: 1,
+        backgroundColor: col + '0d',   // ~5% opacity fill
+        fill: false,
+        tension: 0.3,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        borderWidth: 1.5,
+        order: 1,
       })
     })
 
@@ -65,25 +67,56 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
 
   return (
     <div>
-      <FolioSearch data={data} value={selFolio} onChange={setSelFolio} />
+      {/* Dropdown selector — replaces chart legend */}
+      <div className="mb-3 flex items-center gap-2 flex-wrap">
+        <label className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
+          Registro:
+        </label>
+        <select
+          value={selFolioKey}
+          onChange={e => setSelFolioKey(e.target.value)}
+          className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white text-gray-700 shadow-sm focus:outline-none focus:border-[#d36868] focus:ring-2 focus:ring-[#d36868]/20 max-w-xs"
+        >
+          <option value="">Todos los registros ({data.length})</option>
+          {data.map(d => (
+            <option key={d.folio} value={d.folio}>
+              #{d.folio} — {d.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <DeptTabs depts={allDepts} active={activeDept} onChange={setActiveDept} />
+
       <Line
         data={chartData as never}
         options={{
           responsive: true,
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            legend: {
-              position: 'top',
-              labels: { boxWidth: 12, font: { size: 10 }, padding: 10, usePointStyle: true },
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.parsed.y
+                  if (v == null) return ''
+                  return `${ctx.dataset.label}: ${v} días`
+                },
+              },
             },
           },
           scales: {
-            y: { beginAtZero: true, title: { display: true, text: 'Días' }, grid: { color: '#f0f0f0' } },
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Días' },
+              grid: { color: '#f0f0f0' },
+            },
             x: {
               grid: { display: false },
               ticks: {
-                maxRotation: 40, minRotation: 20, font: { size: 10 },
+                maxRotation: 40,
+                minRotation: 20,
+                font: { size: 10 },
                 callback(val, idx) {
                   const lbl = this.getLabelForValue(idx as number)
                   return lbl === '' ? '' : lbl

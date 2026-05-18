@@ -72,11 +72,15 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
             legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
             tooltip: {
               callbacks: {
+                label: ctx => {
+                  const v = ctx.parsed.y
+                  return `${ctx.dataset.label}: ${v != null ? v + ' días' : 'Sin datos'}`
+                },
                 afterBody(items) {
                   const s = stages[items[0].dataIndex]
                   const vals = data.map(d => d[s.key as keyof EscrituracionRecord]).filter((v): v is number => typeof v === 'number')
                   if (!vals.length) return ''
-                  return `\nMin: ${Math.min(...vals)} | Max: ${Math.max(...vals)} | n=${vals.length}`
+                  return `\nMín: ${Math.min(...vals)} días  |  Máx: ${Math.max(...vals)} días  |  n=${vals.length}`
                 },
               },
             },

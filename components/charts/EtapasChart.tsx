@@ -30,9 +30,15 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
       }}
       options={{
         responsive: true,
+        interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { title: items => ETAPAS_ORDER[items[0].dataIndex] } },
+          tooltip: {
+            callbacks: {
+              title: items => ETAPAS_ORDER[items[0].dataIndex],
+              label: ctx => `${ctx.parsed.y} solicitud${ctx.parsed.y !== 1 ? 'es' : ''}`,
+            },
+          },
         },
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },

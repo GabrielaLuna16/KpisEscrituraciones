@@ -6,8 +6,8 @@ import { DEPT_COLORS } from '@/lib/constants'
 
 export default function EstatusCharts({ data }: { data: EscrituracionRecord[] }) {
   const statuses = ['En proceso', 'Detenido', 'Completado'] as const
+  const total    = data.length
 
-  // Conteos de motivos y áreas (solo Detenidos)
   const det = data.filter(d => d.estatus === 'Detenido')
   const mc: Record<string, number> = {}
   const ac: Record<string, number> = {}
@@ -18,26 +18,51 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
   const motivos = Object.keys(mc)
   const areas   = Object.keys(ac)
 
+  const donutTooltip = {
+    callbacks: {
+      label: (ctx: { parsed: number; label: string; dataset: { data: number[] } }) => {
+        const v   = ctx.parsed
+        const sum = ctx.dataset.data.reduce((a: number, b: number) => a + b, 0)
+        const pct = sum ? ((v / sum) * 100).toFixed(1) : '0'
+        return ` ${ctx.label}: ${v} (${pct}%)`
+      },
+    },
+  }
+
   return (
     <div className="space-y-6">
-      {/* Barra horizontal estatus */}
-      <div style={{ maxHeight: 200 }}>
+      {/* Barra horizontal — Estatus General */}
+      <div style={{ height: 150 }}>
         <Bar
           data={{
             labels: statuses,
             datasets: [{
               data: statuses.map(s => data.filter(d => d.estatus === s).length),
-              backgroundColor: ['#d97706','#dc2626','#059669'],
+              backgroundColor: ['#d97706', '#dc2626', '#059669'],
               borderRadius: 8,
-              maxBarThickness: 48,
+              maxBarThickness: 40,
             }],
           }}
           options={{
             indexAxis: 'y',
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: { display: false },
-              title: { display: true, text: 'Estatus General', font: { size: 13, weight: 'bold' } },
+              title: {
+                display: true,
+                text: 'Estatus General',
+                font: { size: 13, weight: 'bold' },
+              },
+              tooltip: {
+                callbacks: {
+                  label: ctx => {
+                    const v   = ctx.parsed.x
+                    const pct = total ? ((v / total) * 100).toFixed(1) : '0'
+                    return `${v} registros (${pct}%)`
+                  },
+                },
+              },
             },
             scales: {
               x: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
@@ -47,53 +72,65 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
         />
       </div>
 
-      {/* Donuts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {motivos.length > 0 && (
-          <div style={{ maxHeight: 280 }}>
-            <Doughnut
-              data={{
-                labels: motivos,
-                datasets: [{
-                  data: motivos.map(m => mc[m]),
-                  backgroundColor: ['#d97706','#dc2626','#7c3aed','#0891b2','#059669'],
-                  borderWidth: 2,
-                  borderColor: '#fff',
-                }],
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  title: { display: true, text: 'Motivo de Detención', font: { size: 13, weight: 'bold' } },
-                  legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
-                },
-              }}
-            />
-          </div>
-        )}
-        {areas.length > 0 && (
-          <div style={{ maxHeight: 280 }}>
-            <Doughnut
-              data={{
-                labels: areas,
-                datasets: [{
-                  data: areas.map(a => ac[a]),
-                  backgroundColor: areas.map(a => DEPT_COLORS[a] ?? '#6b7280'),
-                  borderWidth: 2,
-                  borderColor: '#fff',
-                }],
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  title: { display: true, text: 'Área de Detención', font: { size: 13, weight: 'bold' } },
-                  legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
-                },
-              }}
-            />
-          </div>
-        )}
-      </div>
+      {/* Donuts — Motivo y Área de Detención */}
+      {(motivos.length > 0 || areas.length > 0) && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {motivos.length > 0 && (
+            <div style={{ maxHeight: 310 }}>
+              <Doughnut
+                data={{
+                  labels: motivos,
+                  datasets: [{
+                    data: motivos.map(m => mc[m]),
+                    backgroundColor: ['#d97706', '#dc2626', '#7c3aed', '#0891b2', '#059669'],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                  }],
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: 'Motivo de Detención',
+                      font: { size: 13, weight: 'bold' },
+                    },
+                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+                    tooltip: donutTooltip,
+                  },
+                }}
+              />
+            </div>
+          )}
+          {areas.length > 0 && (
+            <div style={{ maxHeight: 310 }}>
+              <Doughnut
+                data={{
+                  labels: areas,
+                  datasets: [{
+                    data: areas.map(a => ac[a]),
+                    backgroundColor: areas.map(a => DEPT_COLORS[a] ?? '#6b7280'),
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                  }],
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: 'Área de Detención',
+                      font: { size: 13, weight: 'bold' },
+                    },
+                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+                    tooltip: donutTooltip,
+                  },
+                }}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
