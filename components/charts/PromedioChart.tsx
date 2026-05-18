@@ -6,18 +6,18 @@ import type { EscrituracionRecord } from '@/types'
 import { STAGE_KEYS, KPI_LIMITS } from '@/lib/constants'
 import { median } from '@/lib/dataHelpers'
 import FolioSearch from '@/components/FolioSearch'
-import DeptTabs from '@/components/DeptTabs'
+import DeptTabs   from '@/components/DeptTabs'
 
 export default function PromedioChart({ data }: { data: EscrituracionRecord[] }) {
   const allDepts = [...new Set(STAGE_KEYS.map(s => s.dept))]
   const [activeDept, setActiveDept] = useState('Todos')
-  const [selFolio, setSelFolio] = useState<{ folio: string; nombre: string } | null>(null)
+  const [selFolio, setSelFolio]     = useState<{ folio: string; nombre: string } | null>(null)
 
   const stages = activeDept === 'Todos' ? STAGE_KEYS : STAGE_KEYS.filter(s => s.dept === activeDept)
 
   const chartData = useMemo(() => {
     const labels = stages.map(s => s.short)
-    const kv = stages.map(s => KPI_LIMITS[s.key as string] ?? null)
+    const kv     = stages.map(s => KPI_LIMITS[s.key as string] ?? null)
     let medVals: (number | null)[]
 
     if (selFolio) {
@@ -29,7 +29,7 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
     } else {
       medVals = stages.map(s => {
         const vals = data.map(d => d[s.key as keyof EscrituracionRecord]).filter((v): v is number => typeof v === 'number')
-        const m = median(vals)
+        const m    = median(vals)
         return m != null ? +m.toFixed(1) : null
       })
     }
@@ -40,17 +40,17 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
         {
           label: 'KPI Límite',
           data: kv,
-          backgroundColor: 'rgba(220,38,38,.15)',
-          borderColor: '#dc2626',
+          backgroundColor: 'rgba(26,26,26,.12)',
+          borderColor: '#1a1a1a',
           borderWidth: 2,
-          borderRadius: 6,
+          borderRadius: 2,
           order: 2,
         },
         {
           label: selFolio ? `Días reales — ${selFolio.folio}` : 'Mediana días reales',
           data: medVals,
-          backgroundColor: 'rgba(37,99,235,.7)',
-          borderColor: '#2563eb',
+          backgroundColor: 'rgba(228,30,37,.75)',
+          borderColor: '#e41e25',
           borderWidth: 2,
           borderRadius: 6,
           order: 1,
@@ -77,7 +77,7 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
                   return `${ctx.dataset.label}: ${v != null ? v + ' días' : 'Sin datos'}`
                 },
                 afterBody(items) {
-                  const s = stages[items[0].dataIndex]
+                  const s    = stages[items[0].dataIndex]
                   const vals = data.map(d => d[s.key as keyof EscrituracionRecord]).filter((v): v is number => typeof v === 'number')
                   if (!vals.length) return ''
                   return `\nMín: ${Math.min(...vals)} días  |  Máx: ${Math.max(...vals)} días  |  n=${vals.length}`

@@ -38,9 +38,9 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
             labels: statuses,
             datasets: [{
               data: statuses.map(s => data.filter(d => d.estatus === s).length),
-              backgroundColor: ['#d97706', '#dc2626', '#059669'],
-              borderRadius: 8,
-              maxBarThickness: 40,
+              backgroundColor: ['#c77d00', '#e05c14', '#1e8c4e'],
+              borderRadius: 2,
+              maxBarThickness: 48,
             }],
           }}
           options={{
@@ -52,7 +52,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
               title: {
                 display: true,
                 text: 'Estatus General',
-                font: { size: 13, weight: 'bold' },
+                font: { size: 13, weight: 'bold', family: 'Barlow Condensed' },
               },
               tooltip: {
                 callbacks: {
@@ -72,17 +72,17 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
         />
       </div>
 
-      {/* Donuts — Motivo y Área de Detención */}
+      {/* Donuts */}
       {(motivos.length > 0 || areas.length > 0) && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {motivos.length > 0 && (
-            <div style={{ maxHeight: 310 }}>
+            <div style={{ maxHeight: 280 }}>
               <Doughnut
                 data={{
                   labels: motivos,
                   datasets: [{
                     data: motivos.map(m => mc[m]),
-                    backgroundColor: ['#d97706', '#dc2626', '#7c3aed', '#0891b2', '#059669'],
+                    backgroundColor: ['#e41e25', '#c77d00', '#1e5fa8', '#0891b2', '#1e7c4e'],
                     borderWidth: 2,
                     borderColor: '#fff',
                   }],
@@ -90,12 +90,8 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                 options={{
                   responsive: true,
                   plugins: {
-                    title: {
-                      display: true,
-                      text: 'Motivo de Detención',
-                      font: { size: 13, weight: 'bold' },
-                    },
-                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+                    title: { display: true, text: 'Motivo de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
+                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
                     tooltip: donutTooltip,
                   },
                 }}
@@ -103,7 +99,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
             </div>
           )}
           {areas.length > 0 && (
-            <div style={{ maxHeight: 310 }}>
+            <div style={{ maxHeight: 280 }}>
               <Doughnut
                 data={{
                   labels: areas,
@@ -117,12 +113,8 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                 options={{
                   responsive: true,
                   plugins: {
-                    title: {
-                      display: true,
-                      text: 'Área de Detención',
-                      font: { size: 13, weight: 'bold' },
-                    },
-                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+                    title: { display: true, text: 'Área de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
+                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
                     tooltip: donutTooltip,
                   },
                 }}

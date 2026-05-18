@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
-import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google'
+import { Barlow, Barlow_Condensed } from 'next/font/google'
 import Link from 'next/link'
 import './globals.css'
 
-const dmSans = DM_Sans({
+const barlow = Barlow({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  weight: ['400', '500', '600'],
+  variable: '--font-barlow',
 })
-const plusJakarta = Plus_Jakarta_Sans({
+const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
-  variable: '--font-plus-jakarta',
   weight: ['600', '700', '800'],
+  variable: '--font-barlow-condensed',
 })
 
 export const metadata: Metadata = {
@@ -21,40 +22,58 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className={`${dmSans.variable} ${plusJakarta.variable} font-sans bg-[#e7eaf0] text-gray-900 min-h-screen`}>
-        <header className="bg-gradient-to-r from-[#1a1f2e] to-[#252d3d] text-white px-8 py-5 border-b border-white/5 shadow-lg">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 flex-wrap">
+      <body
+        className={`${barlow.variable} ${barlowCondensed.variable} font-sans min-h-screen`}
+        style={{ background: 'var(--bg)', color: 'var(--text)' }}
+      >
+        <header className="bg-[#1a1a1a] text-white relative" style={{ borderBottom: '3px solid var(--red)' }}>
+          <div className="max-w-[1400px] mx-auto px-8 py-4 flex items-center justify-between flex-wrap gap-3">
+            {/* Brand */}
             <div className="flex items-center gap-4">
-              {/* ATISA wordmark */}
-              <span className="font-display text-2xl font-extrabold tracking-widest text-white select-none">
-                ATISA
-              </span>
-              <div className="border-l border-white/20 pl-4">
-                <p className="text-[#d36868] text-[10px] font-bold uppercase tracking-widest">Dashboard</p>
-                <h1 className="font-display text-lg font-extrabold tracking-tight text-white leading-tight">
-                  Escrituración · KPIs
+              <div className="flex flex-col leading-none">
+                <span className="font-condensed text-[1.9rem] font-extrabold tracking-[.05em]">ATISA</span>
+                <span className="font-condensed text-[.62rem] font-semibold tracking-[.25em] uppercase text-[#aaa]">
+                  Administración Inmobiliaria
+                </span>
+              </div>
+              <div className="w-px h-[38px] bg-[#3a3a3a] mx-2" />
+              <div className="flex flex-col">
+                <h1 className="font-condensed text-[1.35rem] font-bold tracking-[.04em] uppercase">
+                  Dashboard de Escrituración
                 </h1>
+                <p className="text-[.78rem] text-[#888] mt-0.5">
+                  Monitoreo de KPIs y seguimiento de procesos
+                </p>
               </div>
             </div>
 
-            <nav className="flex gap-1">
-              {[
-                { href: '/',       label: 'Dashboard' },
-                { href: '/upload', label: 'Cargar datos' },
-              ].map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
+            {/* Nav + badge */}
+            <div className="flex items-center gap-2">
+              <nav className="flex gap-0.5">
+                {[
+                  { href: '/',       label: 'Dashboard' },
+                  { href: '/upload', label: 'Cargar datos' },
+                ].map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="px-3 py-1.5 text-sm font-medium text-[#aaa] hover:text-white hover:bg-white/10 transition-all"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+              <span
+                className="font-condensed text-[.72rem] font-bold tracking-[.1em] uppercase px-3 py-1 text-white"
+                style={{ background: 'var(--red)' }}
+              >
+                KPI Monitor
+              </span>
+            </div>
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-7 py-6 pb-16">
+        <main className="max-w-[1400px] mx-auto px-7 py-6 pb-16">
           {children}
         </main>
       </body>

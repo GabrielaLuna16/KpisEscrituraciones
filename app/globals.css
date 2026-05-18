@@ -3,5 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --red:        #e41e25;
+    --red-dark:   #c01820;
+    --red-light:  rgba(228,30,37,.08);
+    --green:      #1e8c4e;
+    --amber:      #c77d00;
+    --orange:     #e05c14;
+    --muted:      #717171;
+    --text:       #1a1a1a;
+    --border:     #e0e0e0;
+    --border2:    #d0d0d0;
+    --card:       #fff;
+    --bg:         #f0f0f0;
+  }
   body { @apply antialiased; }
 }

@@ -13,8 +13,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans:    ['var(--font-dm-sans)',      'sans-serif'],
-        display: ['var(--font-plus-jakarta)', 'sans-serif'],
+        sans:      ['var(--font-barlow)',            'sans-serif'],
+        condensed: ['var(--font-barlow-condensed)',  'sans-serif'],
       },
     },
   },

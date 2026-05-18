@@ -8,18 +8,32 @@ interface Props {
 
 export default function DeptTabs({ depts, active, onChange }: Props) {
   return (
-    <div className="flex gap-1.5 mb-4 flex-wrap">
+    <div className="flex gap-[5px] mb-4 flex-wrap">
       {['Todos', ...depts].map(d => (
         <button
           key={d}
           onClick={() => onChange(d)}
-          className={[
-            'px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all whitespace-nowrap',
+          className="px-[14px] py-[5px] font-condensed text-[.8rem] font-bold tracking-[.06em] uppercase whitespace-nowrap border-[1.5px] transition-all cursor-pointer"
+          style={
             active === d
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white text-gray-400 border-gray-200 hover:border-blue-500 hover:text-blue-600',
-          ].join(' ')}
-        >{d}</button>
+              ? { background: 'var(--red)', color: '#fff', borderColor: 'var(--red)' }
+              : { background: '#fff', color: 'var(--muted)', borderColor: 'var(--border2)' }
+          }
+          onMouseEnter={e => {
+            if (active !== d) {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--red)'
+              ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--red)'
+            }
+          }}
+          onMouseLeave={e => {
+            if (active !== d) {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border2)'
+              ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--muted)'
+            }
+          }}
+        >
+          {d}
+        </button>
       ))}
     </div>
   )

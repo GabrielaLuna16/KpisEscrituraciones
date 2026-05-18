@@ -22,10 +22,10 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
         datasets: [{
           label: 'Solicitudes',
           data: ETAPAS_ORDER.map(e => cnt[e]),
-          borderColor: '#4f46e5',
-          backgroundColor: 'rgba(79,70,229,.07)',
+          borderColor: '#e41e25',
+          backgroundColor: 'rgba(228,30,37,.05)',
           fill: true, tension: 0.3, pointRadius: 5, pointHoverRadius: 8,
-          pointBackgroundColor: '#4f46e5',
+          pointBackgroundColor: '#e41e25',
         }],
       }}
       options={{

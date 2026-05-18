@@ -9,15 +9,18 @@ interface Props {
 }
 
 export default function FolioSearch({ data, value, onChange }: Props) {
-  const [query, setQuery]   = useState(value ? `${value.folio} — ${value.nombre}` : '')
-  const [open, setOpen]     = useState(false)
-  const inputRef            = useRef<HTMLInputElement>(null)
+  const [query, setQuery] = useState(value ? `${value.folio} — ${value.nombre}` : '')
+  const [open, setOpen]   = useState(false)
+  const inputRef          = useRef<HTMLInputElement>(null)
 
-  const hits = query && !value
-    ? data.filter(d =>
-        d.folio.toLowerCase().includes(query.toLowerCase()) ||
-        d.nombre.toLowerCase().includes(query.toLowerCase())
-      )
+  /** Items shown in dropdown: all when no query, filtered when typing */
+  const hits = open && !value
+    ? (query
+        ? data.filter(d =>
+            d.folio.toLowerCase().includes(query.toLowerCase()) ||
+            d.nombre.toLowerCase().includes(query.toLowerCase())
+          )
+        : data)
     : []
 
   function select(d: EscrituracionRecord) {
@@ -34,40 +37,72 @@ export default function FolioSearch({ data, value, onChange }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-2.5 mb-3.5 flex-wrap">
-      <span className="text-xs font-semibold text-gray-400 whitespace-nowrap">Buscar Folio:</span>
-      <div className="relative flex-1 min-w-[200px] max-w-sm">
+    <div className="flex items-center gap-[10px] mb-[14px] flex-wrap">
+      <span className="font-condensed text-[.78rem] font-bold tracking-[.06em] uppercase whitespace-nowrap" style={{ color: 'var(--muted)' }}>
+        Buscar Folio:
+      </span>
+      <div className="relative flex-1 min-w-[200px] max-w-[360px]">
         <input
           ref={inputRef}
           value={query}
           onChange={e => { setQuery(e.target.value); onChange(null); setOpen(true) }}
-          onFocus={() => { if (query && !value) setOpen(true) }}
+          onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
-          placeholder="Folio o nombre del comprador..."
-          className="w-full px-3 py-2 pr-8 border border-gray-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+          placeholder="Seleccionar folio o buscar..."
+          className="w-full px-3 py-2 pr-8 text-[.83rem] outline-none transition-all"
+          style={{
+            border: '1.5px solid var(--border2)',
+            fontFamily: 'var(--font-barlow), sans-serif',
+            color: 'var(--text)',
+            background: '#fff',
+          }}
+          onFocusCapture={e => {
+            (e.currentTarget as HTMLInputElement).style.borderColor = 'var(--red)'
+            ;(e.currentTarget as HTMLInputElement).style.boxShadow = '0 0 0 3px rgba(228,30,37,.08)'
+          }}
+          onBlurCapture={e => {
+            (e.currentTarget as HTMLInputElement).style.borderColor = 'var(--border2)'
+            ;(e.currentTarget as HTMLInputElement).style.boxShadow = 'none'
+          }}
         />
         {query && (
           <button
             onMouseDown={e => { e.preventDefault(); clear() }}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-sm"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-sm bg-transparent border-none cursor-pointer"
+            style={{ color: 'var(--muted)' }}
           >✕</button>
         )}
-        {open && hits.length > 0 && (
-          <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg z-50 max-h-52 overflow-y-auto">
+        {hits.length > 0 && (
+          <div
+            className="absolute top-[calc(100%+2px)] left-0 right-0 bg-white z-50 max-h-[210px] overflow-y-auto"
+            style={{ border: '1.5px solid var(--border2)', boxShadow: '0 8px 24px rgba(0,0,0,.12)' }}
+          >
             {hits.map(d => (
               <div
                 key={d.folio}
                 onMouseDown={() => select(d)}
-                className="px-3 py-2 text-sm cursor-pointer border-b border-gray-50 last:border-0 hover:bg-blue-50 hover:text-blue-600"
+                className="px-3 py-2 text-[.82rem] cursor-pointer"
+                style={{ borderBottom: '1px solid #f0f0f0', fontFamily: 'var(--font-barlow), sans-serif' }}
+                onMouseEnter={e => {
+                  ;(e.currentTarget as HTMLDivElement).style.background = '#fff0f0'
+                  ;(e.currentTarget as HTMLDivElement).style.color = 'var(--red)'
+                }}
+                onMouseLeave={e => {
+                  ;(e.currentTarget as HTMLDivElement).style.background = ''
+                  ;(e.currentTarget as HTMLDivElement).style.color = ''
+                }}
               >
                 <strong>{d.folio}</strong> — {d.nombre}
               </div>
             ))}
           </div>
         )}
-        {open && query && !hits.length && !value && (
-          <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-            <div className="px-3 py-2 text-sm text-gray-400">Sin resultados</div>
+        {open && query && !value && hits.length === 0 && (
+          <div
+            className="absolute top-[calc(100%+2px)] left-0 right-0 bg-white z-50"
+            style={{ border: '1.5px solid var(--border2)' }}
+          >
+            <div className="px-3 py-2 text-[.82rem]" style={{ color: 'var(--muted)' }}>Sin resultados</div>
           </div>
         )}
       </div>
