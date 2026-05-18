@@ -30,13 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-[1400px] mx-auto px-8 py-4 flex items-center justify-between flex-wrap gap-3">
             {/* Brand */}
             <div className="flex items-center gap-4">
-              <div className="flex flex-col leading-none">
-                <span className="font-condensed text-[1.9rem] font-extrabold tracking-[.05em]">ATISA</span>
-                <span className="font-condensed text-[.62rem] font-semibold tracking-[.25em] uppercase text-[#aaa]">
-                  Administración Inmobiliaria
-                </span>
-              </div>
-              <div className="w-px h-[38px] bg-[#3a3a3a] mx-2" />
               <div className="flex flex-col">
                 <h1 className="font-condensed text-[1.35rem] font-bold tracking-[.04em] uppercase">
                   Dashboard de Escrituración

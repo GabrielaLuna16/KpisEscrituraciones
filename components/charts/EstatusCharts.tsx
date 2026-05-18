@@ -72,11 +72,12 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
         />
       </div>
 
-      {/* Donuts */}
+      {/* Donuts — siempre lado a lado, misma altura */}
       {(motivos.length > 0 || areas.length > 0) && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {motivos.length > 0 && (
-            <div style={{ maxHeight: 280 }}>
+        <div className="grid grid-cols-2 gap-8">
+          {/* Motivo de Detención — si no hay datos muestra celda vacía para mantener posición */}
+          <div style={{ height: 300, position: 'relative' }}>
+            {motivos.length > 0 ? (
               <Doughnut
                 data={{
                   labels: motivos,
@@ -89,6 +90,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                 }}
                 options={{
                   responsive: true,
+                  maintainAspectRatio: false,
                   plugins: {
                     title: { display: true, text: 'Motivo de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
                     legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
@@ -96,10 +98,12 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   },
                 }}
               />
-            </div>
-          )}
-          {areas.length > 0 && (
-            <div style={{ maxHeight: 280 }}>
+            ) : null}
+          </div>
+
+          {/* Área de Detención */}
+          <div style={{ height: 300, position: 'relative' }}>
+            {areas.length > 0 ? (
               <Doughnut
                 data={{
                   labels: areas,
@@ -112,6 +116,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                 }}
                 options={{
                   responsive: true,
+                  maintainAspectRatio: false,
                   plugins: {
                     title: { display: true, text: 'Área de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
                     legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
@@ -119,8 +124,8 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   },
                 }}
               />
-            </div>
-          )}
+            ) : null}
+          </div>
         </div>
       )}
     </div>
