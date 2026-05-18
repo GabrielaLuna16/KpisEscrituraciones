@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import type { EscrituracionRecord } from '@/types'
 import { monthLabel } from '@/lib/dataHelpers'
+import TooltipIcon       from '@/components/TooltipIcon'
 import KPICards          from '@/components/KPICards'
 import SolicitudesChart  from '@/components/charts/SolicitudesChart'
 import DepartamentosChart from '@/components/charts/DepartamentosChart'
@@ -40,13 +41,7 @@ function Section({
             {note}
           </span>
         )}
-        {tip && (
-          <span
-            title={tip}
-            className="inline-flex items-center justify-center w-[17px] h-[17px] rounded-full bg-[#e0e0e0] text-[.62rem] font-bold cursor-help ml-1 shrink-0"
-            style={{ color: 'var(--muted)' }}
-          >?</span>
-        )}
+        {tip && <TooltipIcon text={tip} />}
       </h2>
       <div
         className="bg-white"
