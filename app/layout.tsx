@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ background: 'var(--bg)', color: 'var(--text)' }}
       >
         <header className="bg-[#1a1a1a] text-white relative" style={{ borderBottom: '3px solid var(--red)' }}>
-          <div className="max-w-[1400px] mx-auto px-8 py-4 flex items-center justify-between flex-wrap gap-3">
+          <div className="w-full px-8 py-4 flex items-center justify-between flex-wrap gap-3">
             {/* Brand */}
             <div className="flex items-center gap-4">
               <div className="flex flex-col">
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="max-w-[1400px] mx-auto px-7 py-6 pb-16">
+        <main className="w-full px-7 py-6 pb-16">
           {children}
         </main>
       </body>
