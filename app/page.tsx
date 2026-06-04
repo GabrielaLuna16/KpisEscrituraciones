@@ -1,7 +1,6 @@
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import type { EscrituracionRecord } from '@/types'
-import { monthLabel } from '@/lib/dataHelpers'
 import TooltipIcon       from '@/components/TooltipIcon'
 import KPICards          from '@/components/KPICards'
 import SolicitudesChart  from '@/components/charts/SolicitudesChart'
@@ -13,14 +12,8 @@ import PromedioChart     from '@/components/charts/PromedioChart'
 
 const DATA_DIR = process.env.DATA_DIR ?? join(process.cwd(), 'public', 'data')
 
-function getMonths(): string[] {
-  const p = join(DATA_DIR, 'index.json')
-  if (!existsSync(p)) return []
-  return (JSON.parse(readFileSync(p, 'utf-8')).months as string[]).sort()
-}
-
-function getData(month: string): EscrituracionRecord[] {
-  const p = join(DATA_DIR, `${month}.json`)
+function getData(): EscrituracionRecord[] {
+  const p = join(DATA_DIR, 'current.json')
   if (!existsSync(p)) return []
   return JSON.parse(readFileSync(p, 'utf-8'))
 }
@@ -54,17 +47,15 @@ function Section({
 }
 
 export default function DashboardPage() {
-  const months = getMonths()
-  const latest = months[months.length - 1]
-  const data   = getData(latest ?? '')
+  const data = getData()
 
-  if (!months.length) {
+  if (!data.length) {
     return (
       <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
         <p className="text-5xl mb-4">📂</p>
         <p className="text-lg font-semibold">Aún no hay datos cargados</p>
         <p className="text-sm mt-1">
-          Sube el primer reporte en{' '}
+          Sube el reporte en{' '}
           <a href="/upload" className="underline font-medium" style={{ color: 'var(--red)' }}>
             Cargar datos
           </a>.
@@ -77,7 +68,7 @@ export default function DashboardPage() {
     <>
       <div className="flex justify-end mb-5">
         <span className="text-sm font-medium bg-white px-4 py-1.5" style={{ color: 'var(--muted)', boxShadow: '0 1px 4px rgba(0,0,0,.08)' }}>
-          {monthLabel(latest)} · {data.length} registros
+          {data.length} registros
         </span>
       </div>
 

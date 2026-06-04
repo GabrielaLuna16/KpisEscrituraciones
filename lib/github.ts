@@ -25,33 +25,11 @@ async function commitFile(path: string, content: string, message: string) {
   })
 }
 
-export async function publishMonthData(month: string, data: unknown[]) {
-  // 1. Guardar datos del mes
+/** Guarda todos los registros en current.json (sobreescribe siempre) */
+export async function publishData(data: unknown[]) {
   await commitFile(
-    `public/data/${month}.json`,
+    'public/data/current.json',
     JSON.stringify(data, null, 2),
-    `chore: datos escrituración ${month}`,
+    'chore: actualizar datos de escrituración',
   )
-
-  // 2. Actualizar index.json
-  const octokit = client()
-  let months: string[] = []
-  try {
-    const { data: file } = await octokit.repos.getContent({
-      owner: OWNER, repo: REPO, path: 'public/data/index.json',
-    })
-    if (!Array.isArray(file)) {
-      const raw = Buffer.from(file.content, 'base64').toString('utf-8')
-      months = JSON.parse(raw).months ?? []
-    }
-  } catch { /* index aún no existe */ }
-
-  if (!months.includes(month)) {
-    months = [...months, month].sort()
-    await commitFile(
-      'public/data/index.json',
-      JSON.stringify({ months }, null, 2),
-      `chore: índice escrituración ${month}`,
-    )
-  }
 }
