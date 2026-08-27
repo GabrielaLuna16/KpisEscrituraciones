@@ -68,10 +68,12 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
     <div>
       <FolioSearch data={data} value={selFolio} onChange={setSelFolio} />
       <DeptTabs depts={allDepts} active={activeDept} onChange={setActiveDept} />
+      <div className="chart-shell">
       <Line
         data={chartData as never}
         options={{
           responsive: true,
+          maintainAspectRatio: false,
           interaction: { mode: 'nearest', intersect: false },
           plugins: {
             legend: { display: false },
@@ -91,7 +93,7 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
               offset: true,
               grid: { display: false },
               ticks: {
-                maxRotation: 40, minRotation: 20, font: { size: 10 },
+                maxRotation: 35, minRotation: 0, font: { size: 12, weight: 600 },
                 callback(val, idx) {
                   const lbl = this.getLabelForValue(idx as number)
                   return lbl === '' ? '' : lbl
@@ -100,8 +102,8 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
             },
           },
         }}
-        style={{ maxHeight: 430 }}
       />
+      </div>
       <p className="text-[.73rem] mt-[10px] italic" style={{ color: 'var(--muted)' }}>
         Todas las solicitudes se muestran como líneas tenues. Selecciona un folio en el filtro para resaltarlo. La línea negra discontinua es el KPI límite.
       </p>

@@ -45,8 +45,8 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
 
   return (
     <>
+      <div className="chart-shell">
       <Bar
-        style={{ maxHeight: 430 }}
         plugins={[topLabelsPlugin]}
         data={{
           labels: depts,
@@ -60,6 +60,7 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
         }}
         options={{
           responsive: true,
+          maintainAspectRatio: false,
           layout: { padding: { top: 28 } },
           onClick: handleClick as never,
           plugins: {
@@ -77,6 +78,7 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
           },
         }}
       />
+      </div>
       {modal && <Modal title={modal.title} records={modal.records} onClose={() => setModal(null)} />}
     </>
   )

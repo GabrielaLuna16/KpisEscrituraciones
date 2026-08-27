@@ -16,8 +16,8 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
   })
 
   return (
+    <div className="chart-shell">
     <Line
-      style={{ maxHeight: 430 }}
       data={{
         labels,
         datasets: [{
@@ -31,6 +31,7 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -43,9 +44,10 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
         },
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
-          x: { offset: true, grid: { display: false }, ticks: { maxRotation: 45, minRotation: 25, font: { size: 10 } } },
+          x: { offset: true, grid: { display: false }, ticks: { maxRotation: 35, minRotation: 0, font: { size: 12, weight: 600 } } },
         },
       }}
     />
+    </div>
   )
 }

@@ -32,7 +32,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
   return (
     <div className="space-y-6">
       {/* Barra horizontal — Estatus General */}
-      <div style={{ height: 150 }}>
+      <div className="chart-shell-compact">
         <Bar
           data={{
             labels: statuses,
@@ -74,9 +74,9 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
 
       {/* Donuts — siempre lado a lado, misma altura */}
       {(motivos.length > 0 || areas.length > 0) && (
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Motivo de Detención — si no hay datos muestra celda vacía para mantener posición */}
-          <div style={{ height: 300, position: 'relative' }}>
+          <div className="chart-shell-donut">
             {motivos.length > 0 ? (
               <Doughnut
                 data={{
@@ -93,7 +93,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   maintainAspectRatio: false,
                   plugins: {
                     title: { display: true, text: 'Motivo de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
-                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
+                    legend: { position: 'bottom' },
                     tooltip: donutTooltip,
                   },
                 }}
@@ -102,7 +102,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
           </div>
 
           {/* Área de Detención */}
-          <div style={{ height: 300, position: 'relative' }}>
+          <div className="chart-shell-donut">
             {areas.length > 0 ? (
               <Doughnut
                 data={{
@@ -119,7 +119,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   maintainAspectRatio: false,
                   plugins: {
                     title: { display: true, text: 'Área de Detención', font: { size: 13, weight: 'bold', family: 'Barlow Condensed' } },
-                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
+                    legend: { position: 'bottom' },
                     tooltip: donutTooltip,
                   },
                 }}

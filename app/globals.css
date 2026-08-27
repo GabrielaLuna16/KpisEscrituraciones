@@ -19,3 +19,17 @@
   }
   body { @apply antialiased; }
 }
+
+@layer components {
+  .chart-shell {
+    @apply relative w-full h-[320px] sm:h-[360px] lg:h-[400px];
+  }
+
+  .chart-shell-compact {
+    @apply relative w-full h-[210px] sm:h-[230px];
+  }
+
+  .chart-shell-donut {
+    @apply relative w-full h-[280px] sm:h-[320px];
+  }
+}

@@ -63,14 +63,15 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
     <div>
       <FolioSearch data={data} value={selFolio} onChange={setSelFolio} />
       <DeptTabs depts={allDepts} active={activeDept} onChange={setActiveDept} />
+      <div className="chart-shell">
       <Bar
-        style={{ maxHeight: 430 }}
         data={chartData}
         options={{
           responsive: true,
+          maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+            legend: { position: 'top' },
             tooltip: {
               callbacks: {
                 label: ctx => {
@@ -88,10 +89,11 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
           },
           scales: {
             y: { beginAtZero: true, title: { display: true, text: 'Días' }, grid: { color: '#f0f0f0' } },
-            x: { offset: true, grid: { display: false }, ticks: { maxRotation: 40, minRotation: 20, font: { size: 10 } } },
+            x: { offset: true, grid: { display: false }, ticks: { maxRotation: 35, minRotation: 0, font: { size: 12, weight: 600 } } },
           },
         }}
       />
+      </div>
     </div>
   )
 }

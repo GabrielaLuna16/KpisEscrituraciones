@@ -51,8 +51,8 @@ export default function SolicitudesChart({ data }: { data: EscrituracionRecord[]
 
   return (
     <>
+      <div className="chart-shell">
       <Line
-        style={{ maxHeight: 430 }}
         data={{
           labels: months.map(monthLabel),
           datasets: [
@@ -76,10 +76,11 @@ export default function SolicitudesChart({ data }: { data: EscrituracionRecord[]
         }}
         options={{
           responsive: true,
+          maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           onClick: handleClick as never,
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 14 } },
+            legend: { position: 'top' },
             tooltip: {
               callbacks: {
                 label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} solicitudes`,
@@ -92,6 +93,7 @@ export default function SolicitudesChart({ data }: { data: EscrituracionRecord[]
           },
         }}
       />
+      </div>
       {modal && <Modal title={modal.title} records={modal.records} onClose={() => setModal(null)} />}
     </>
   )
