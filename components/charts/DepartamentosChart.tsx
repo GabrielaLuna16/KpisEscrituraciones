@@ -72,7 +72,7 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
           },
           scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
-            x: { grid: { display: false } },
+            x: { offset: true, grid: { display: false } },
           },
         }}
       />

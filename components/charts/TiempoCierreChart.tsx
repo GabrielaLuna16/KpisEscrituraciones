@@ -17,11 +17,9 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
   const recs     = isSingle ? data.filter(d => d.folio === selFolio!.folio) : data
 
   const chartData = useMemo(() => {
-    const pad    = stages.length === 1 ? 2 : 0
-    const empty  = Array(pad).fill(null)
-    const labels = [...Array(pad).fill(''), ...stages.map(s => s.short), ...Array(pad).fill('')]
+    const labels = stages.map(s => s.short)
 
-    const padVals = (vals: (number | null)[]) => [...empty, ...vals, ...empty]
+    const padVals = (vals: (number | null)[]) => vals
     const datasets: object[] = []
 
     // KPI reference line
@@ -90,6 +88,7 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
           scales: {
             y: { beginAtZero: true, title: { display: true, text: 'Días' }, grid: { color: '#f0f0f0' } },
             x: {
+              offset: true,
               grid: { display: false },
               ticks: {
                 maxRotation: 40, minRotation: 20, font: { size: 10 },

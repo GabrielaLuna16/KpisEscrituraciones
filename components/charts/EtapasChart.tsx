@@ -42,7 +42,7 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
         },
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
-          x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 25, font: { size: 10 } } },
+          x: { offset: true, grid: { display: false }, ticks: { maxRotation: 45, minRotation: 25, font: { size: 10 } } },
         },
       }}
     />

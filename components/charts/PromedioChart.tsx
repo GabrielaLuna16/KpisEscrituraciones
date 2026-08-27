@@ -87,7 +87,7 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
           },
           scales: {
             y: { beginAtZero: true, title: { display: true, text: 'Días' }, grid: { color: '#f0f0f0' } },
-            x: { grid: { display: false }, ticks: { maxRotation: 40, minRotation: 20, font: { size: 10 } } },
+            x: { offset: true, grid: { display: false }, ticks: { maxRotation: 40, minRotation: 20, font: { size: 10 } } },
           },
         }}
       />

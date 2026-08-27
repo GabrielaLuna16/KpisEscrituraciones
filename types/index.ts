@@ -1,6 +1,7 @@
 export type Estatus = 'En proceso' | 'Detenido' | 'Completado'
 
 export interface EscrituracionRecord {
+  recordId: string | null
   nombre: string
   folio: string
   created: string        // YYYY-MM-DD

@@ -107,7 +107,7 @@ export default function HistoricoClient({ months, summaries, allData }: Props) {
             responsive: true,
             interaction: { mode: 'index', intersect: false },
             plugins: { legend: { position: 'top' } },
-            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { grid: { display: false } } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { offset: true, grid: { display: false } } },
           }}
         />
       </Section>
@@ -182,7 +182,7 @@ export default function HistoricoClient({ months, summaries, allData }: Props) {
           options={{
             responsive: true,
             plugins: { legend: { position: 'top' } },
-            scales: { y: { beginAtZero: true, title: { display: true, text: 'Días (mediana)' } }, x: { grid: { display: false } } },
+            scales: { y: { beginAtZero: true, title: { display: true, text: 'Días (mediana)' } }, x: { offset: true, grid: { display: false } } },
           }}
         />
       </Section>

@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default function Modal({ title, records, onClose }: Props) {
+  const zohoBaseUrl = 'https://crm.zoho.com/crm/org666606221/tab/CustomModule22/'
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -45,7 +46,13 @@ export default function Modal({ title, records, onClose }: Props) {
             <tbody>
               {records.map((r, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                  <td className="px-3 py-[9px]">{r.nombre}</td>
+                  <td className="px-3 py-[9px]">
+                    {r.recordId ? (
+                      <a href={`${zohoBaseUrl}${r.recordId}`} target="_blank" rel="noopener noreferrer" className="font-medium underline hover:text-[var(--red)]">
+                        {r.nombre}
+                      </a>
+                    ) : r.nombre}
+                  </td>
                   <td className="px-3 py-[9px]">{r.folio}</td>
                   <td className="px-3 py-[9px] text-xs">{r.etapa}</td>
                   <td className="px-3 py-[9px]">

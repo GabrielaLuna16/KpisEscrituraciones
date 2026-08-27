@@ -1,5 +1,6 @@
 [
   {
+    "recordId": "3227853000266293054",
     "nombre": "Ricardo Diaz Gomez",
     "folio": "ESC-2026-21795",
     "created": "2026-08-21",
@@ -27,6 +28,7 @@
     "cierreContable": null
   },
   {
+    "recordId": "3227853000266293053",
     "nombre": "Ana Larissa y Carolina Beltran Rodriguez / Castulo Beltran Rendon",
     "folio": "ESC-2026-29045",
     "created": "2026-08-21",
@@ -54,6 +56,7 @@
     "cierreContable": null
   },
   {
+    "recordId": "3227853000266293052",
     "nombre": "Armando Velarde Garzon",
     "folio": "ESC-2026-74777",
     "created": "2026-08-21",
