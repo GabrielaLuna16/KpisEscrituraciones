@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  html { font-size: 18px; }
+  html { font-size: 20px; }
 
   :root {
     --red:        #e41e25;
@@ -22,7 +22,7 @@
   body { @apply antialiased; line-height: 1.5; }
 
   @media (max-width: 640px) {
-    html { font-size: 17px; }
+    html { font-size: 19px; }
   }
 }
 

@@ -52,7 +52,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
               title: {
                 display: true,
                 text: 'Estatus General',
-                font: { size: 15, weight: 'bold', family: 'Barlow Condensed' },
+                font: { size: 17, weight: 'bold', family: 'Barlow Condensed' },
               },
               tooltip: {
                 callbacks: {
@@ -92,7 +92,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   responsive: true,
                   maintainAspectRatio: false,
                   plugins: {
-                    title: { display: true, text: 'Motivo de Detención', font: { size: 15, weight: 'bold', family: 'Barlow Condensed' } },
+                    title: { display: true, text: 'Motivo de Detención', font: { size: 17, weight: 'bold', family: 'Barlow Condensed' } },
                     legend: { position: 'bottom' },
                     tooltip: donutTooltip,
                   },
@@ -118,7 +118,7 @@ export default function EstatusCharts({ data }: { data: EscrituracionRecord[] })
                   responsive: true,
                   maintainAspectRatio: false,
                   plugins: {
-                    title: { display: true, text: 'Área de Detención', font: { size: 15, weight: 'bold', family: 'Barlow Condensed' } },
+                    title: { display: true, text: 'Área de Detención', font: { size: 17, weight: 'bold', family: 'Barlow Condensed' } },
                     legend: { position: 'bottom' },
                     tooltip: donutTooltip,
                   },

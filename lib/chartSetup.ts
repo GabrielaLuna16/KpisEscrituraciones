@@ -10,7 +10,7 @@ ChartJS.register(
 )
 
 ChartJS.defaults.font.family = 'var(--font-barlow), Barlow, sans-serif'
-ChartJS.defaults.font.size = 15
+ChartJS.defaults.font.size = 17
 ChartJS.defaults.font.weight = 500
 ChartJS.defaults.color = '#717171'
 ChartJS.defaults.plugins.legend.labels.usePointStyle = true
@@ -18,6 +18,6 @@ ChartJS.defaults.plugins.legend.labels.pointStyle = 'rectRounded'
 ChartJS.defaults.plugins.legend.labels.padding = 18
 ChartJS.defaults.plugins.legend.labels.font = {
   family: 'var(--font-barlow-condensed), "Barlow Condensed", sans-serif',
-  size: 15,
+  size: 17,
   weight: 700,
 }
