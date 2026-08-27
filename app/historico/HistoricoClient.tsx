@@ -95,6 +95,7 @@ export default function HistoricoClient({ months, summaries, allData }: Props) {
       {/* Evolución de estatus */}
       <Section title="Evolución de Estatus por Mes">
         <Line
+          style={{ maxHeight: 430 }}
           data={{
             labels: filtered.map(m => summaries.find(s => s.month === m)?.label ?? m),
             datasets: [
@@ -158,6 +159,7 @@ export default function HistoricoClient({ months, summaries, allData }: Props) {
       {/* Tendencia tiempo promedio total */}
       <Section title="Tendencia Tiempo Total Promedio">
         <Bar
+          style={{ maxHeight: 430 }}
           data={{
             labels: filtered.map(m => summaries.find(s => s.month === m)?.label ?? m),
             datasets: [{

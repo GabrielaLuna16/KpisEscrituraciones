@@ -52,6 +52,7 @@ export default function SolicitudesChart({ data }: { data: EscrituracionRecord[]
   return (
     <>
       <Line
+        style={{ maxHeight: 430 }}
         data={{
           labels: months.map(monthLabel),
           datasets: [

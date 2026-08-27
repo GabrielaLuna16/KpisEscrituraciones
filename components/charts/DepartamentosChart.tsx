@@ -46,6 +46,7 @@ export default function DepartamentosChart({ data }: { data: EscrituracionRecord
   return (
     <>
       <Bar
+        style={{ maxHeight: 430 }}
         plugins={[topLabelsPlugin]}
         data={{
           labels: depts,

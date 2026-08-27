@@ -64,6 +64,7 @@ export default function PromedioChart({ data }: { data: EscrituracionRecord[] })
       <FolioSearch data={data} value={selFolio} onChange={setSelFolio} />
       <DeptTabs depts={allDepts} active={activeDept} onChange={setActiveDept} />
       <Bar
+        style={{ maxHeight: 430 }}
         data={chartData}
         options={{
           responsive: true,

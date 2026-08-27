@@ -17,6 +17,7 @@ export default function EtapasChart({ data }: { data: EscrituracionRecord[] }) {
 
   return (
     <Line
+      style={{ maxHeight: 430 }}
       data={{
         labels,
         datasets: [{
