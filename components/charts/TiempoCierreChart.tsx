@@ -93,7 +93,7 @@ export default function TiempoCierreChart({ data }: { data: EscrituracionRecord[
               offset: true,
               grid: { display: false },
               ticks: {
-                maxRotation: 35, minRotation: 0, font: { size: 12, weight: 600 },
+                maxRotation: 35, minRotation: 0, font: { size: 14, weight: 600 },
                 callback(val, idx) {
                   const lbl = this.getLabelForValue(idx as number)
                   return lbl === '' ? '' : lbl

@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @layer base {
+  html { font-size: 18px; }
+
   :root {
     --red:        #e41e25;
     --red-dark:   #c01820;
@@ -17,7 +19,11 @@
     --card:       #fff;
     --bg:         #f0f0f0;
   }
-  body { @apply antialiased; }
+  body { @apply antialiased; line-height: 1.5; }
+
+  @media (max-width: 640px) {
+    html { font-size: 17px; }
+  }
 }
 
 @layer components {
